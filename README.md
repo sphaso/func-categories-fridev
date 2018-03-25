@@ -1,0 +1,1 @@
+# func-categories-fridev
