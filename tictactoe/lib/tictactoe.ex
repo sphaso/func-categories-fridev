@@ -7,12 +7,11 @@ defmodule Tictactoe do
 
   def print_current_board, do: fn game -> IO.puts(Game.to_string(game)) end
 
-  def parse(input) do
-    [x, y] = String.split(input)
-
-    with {:ok, {x, _}} <- {:ok, Integer.parse(x)},
+  def parse(input, c) do
+    with {:ok, [x, y]} <- {:ok, String.split(input)},
+         {:ok, {x, _}} <- {:ok, Integer.parse(x)},
          {:ok, {y, _}} <- {:ok, Integer.parse(y)} do
-      {:ok, {x, y}}
+      {:ok, {x, y, c}}
     else
       _ -> {:error, "validation"}
     end
@@ -32,8 +31,7 @@ defmodule Tictactoe do
           {:error, "input x y"}
 
         true ->
-          {:ok, {x, y}} = parse(input)
-          {:ok, {x, y, c}}
+          parse(input, c)
       end
     end
   end
@@ -60,6 +58,7 @@ defmodule Tictactoe do
 
       {:error, msg} ->
         IO.puts(msg)
+        play(game, color)
 
       {:ok, move} ->
         {:ok, game} = Game.add_move(game, move)
