@@ -49,7 +49,7 @@ defmodule Parser.Joints do
     # (string -> Maybe (a, string)) -> string -> Maybe (a, string)
     # guess what... this is monadic composition! (bind)
 
-    # results are treated as monoids
+    # results are treated as semigroups / monoids
     def mappend({:ok, a, _}, {:ok, b, tail}), do: {:ok, mappend(a, b), tail}
     def mappend({:ok, a, _}, {:error, t}), do: {:error, to_string(a) <> t}
     def mappend(a = {:error, _}, _), do: a
